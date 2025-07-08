@@ -4,8 +4,8 @@ const { generatePagination } = require('../helpers/pagination');
 const { where, fn, col } = require('sequelize');
 
 const getMedDRATerms = async( req = request, res = response ) => {
-    const limit = req.query.limit || 100;
-    const offset = req.query.offset || 0;
+    const limit = parseInt(req.query.limit) || 100;
+    const offset = parseInt(req.query.offset) || 0;
     try {
         const meddraTerms = await MedDRA.findAndCountAll({
             limit: limit,
@@ -31,7 +31,7 @@ const getMedDRATerms = async( req = request, res = response ) => {
         });
 
     } catch (error) {
-        console.log('Error:'. error);
+        console.log('Error:', error);
         return res.status(500).json({
             msg: 'Internal Server Error',
             error: error.message
@@ -40,8 +40,8 @@ const getMedDRATerms = async( req = request, res = response ) => {
 }
 
 const searchLltTerm = async( req = request, res = response ) => {
-    const limit = process.env.LIMIT || 1000;
-    const offset = req.query.offset || 0;
+    const limit = parseInt(process.env.LIMIT) || 1000;
+    const offset = parseInt(req.query.offset) || 0;
     const term = req.query.term || '';
     try {
         //const termRegex = new RegExp(term, 'i');
@@ -69,9 +69,9 @@ const searchLltTerm = async( req = request, res = response ) => {
         });
 
     } catch (error) {
-        console.log('Error:'. error);
+        console.log('Error:', error);
         return res.status(500).json({
-            msg: 'Internal Server Error - Serach Term',
+            msg: 'Internal Server Error - Search Term',
             error: error.message
         });
     }
